@@ -1,6 +1,7 @@
 import React from 'react';
 import {
     Alert,
+    AsyncStorage,
     Image, 
     StyleSheet, 
     ScrollView,
@@ -35,23 +36,25 @@ export default class Profile extends React.Component {
             loading: true,
             alert: '',
         }, () => { 
-            user_model.getUserByUserCode('U0002').then((response) => {
-                if (response == false) {
-                    this.setState({
-                        loading: false,
-                        alert: 'network-failed',
-                    });
-                }else if (response.data.length == 0) {
-                    this.setState({
-                        loading: false,
-                        alert: 'not-found',
-                    });
-                }else{
-                    this.setState({ 
-                        loading: false,
-                        user_data: response.data[0], 
-                    });
-                }
+            AsyncStorage.getItem('user_data').then((user) => { return JSON.parse(user) }).then((user_data) => {
+                user_model.getUserByUserCode(user_data.user_code).then((response) => {
+                    if (response == false) {
+                        this.setState({
+                            loading: false,
+                            alert: 'network-failed',
+                        });
+                    }else if (response.data.length == 0) {
+                        this.setState({
+                            loading: false,
+                            alert: 'not-found',
+                        });
+                    }else{
+                        this.setState({ 
+                            loading: false,
+                            user_data: response.data[0], 
+                        });
+                    }
+                })
             })
         })
     }
@@ -61,7 +64,9 @@ export default class Profile extends React.Component {
     }
 
     _logOut() {
-
+        AsyncStorage.removeItem('user_data').then(() => {
+            this.props.navigation.navigate('Login')
+        });
     }
 
     render() { 

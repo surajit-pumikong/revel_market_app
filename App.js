@@ -4,6 +4,7 @@ import {
 } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack'
 
+import { SplashScreen } from './views/SplashScreen'
 import { Login } from './views/Login/Login'
 import { Home } from './views/Home/Home'
 import { NewsDetail } from './views/News/NewsDetail'
@@ -49,10 +50,11 @@ const HomeNavigation = createStackNavigator({
   },
 }, {
   initialRouteParams: 'Home',
-  //หน้าไม่ตรง navigation ไม่ตรง จะอยู่ที่ home ตลอด ไม่ไปไหน
 });
 
 const Navigation = createSwitchNavigator({
+  SplashScreen: SplashScreen,
+  Login: Login,
   Home: HomeNavigation,
 })
 
