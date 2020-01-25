@@ -49,6 +49,7 @@ const HomeNavigation = createStackNavigator({
   },
 }, {
   initialRouteParams: 'Home',
+  //หน้าไม่ตรง navigation ไม่ตรง จะอยู่ที่ home ตลอด ไม่ไปไหน
 });
 
 const Navigation = createSwitchNavigator({
